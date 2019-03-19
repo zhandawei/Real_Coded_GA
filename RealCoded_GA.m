@@ -100,7 +100,8 @@ end
 
 figure;
 plot(log10(best_obj_record));
-xlabel('x');ylabel('log10(y)');
+xlabel('generation');ylabel('log10(best objective value)');
+title(sprintf('GA on %d-d %s function\n',num_vari,obj_fun(5:end)));
 
 
 
