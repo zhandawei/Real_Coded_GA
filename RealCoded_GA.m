@@ -1,8 +1,8 @@
 % This is a MATLAB implementation of real-coded GA algorithm[1][2]
-% [1] Deb, K., and A. Kumar. Real-coded genetic algorithms 
+% [1] K. Deb, A. Kumar. Real-coded genetic algorithms 
 % with simulated binary crossover: studies on multimodal and multiobjective 
 % problems.Complex Systems, 1995, 9(6):431-54.
-% [2] Deb, Kalyanmoy. . An efficient constraint handling method
+% [2] K. Deb. An efficient constraint handling method
 % for genetic algorithms. Computer Methods in Applied Mechanics and Engineering
 % , 2000, 186(2):311-38. 
 %------------------------------------
@@ -16,7 +16,7 @@ clearvars;clc;close all;
 obj_fun = 'Fun_Ackley';
 % number of variablese
 num_vari = 50;
-% population size of genectice algorithm
+% population size of genetic algorithm
 pop_size = 100;
 % maximum number of generations
 max_gen = 500;
