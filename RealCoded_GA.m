@@ -10,6 +10,7 @@
 % crossover: simulated binary crossover
 % mutation: ploynomial mutation
 % using environment selection
+%------------------------------------
 clearvars;clc;close all;
 %------------------------------------
 % problem name 'Fun_Ellipsoid','Fun_Rosenbrock', 'Fun_Ackley', 'Fun_Griewank'
