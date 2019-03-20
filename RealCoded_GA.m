@@ -14,7 +14,7 @@
 clearvars;clc;close all;
 %------------------------------------
 % problem name 'Fun_Ellipsoid','Fun_Rosenbrock', 'Fun_Ackley', 'Fun_Griewank'
-obj_fun = 'Fun_Ackley';
+obj_fun = 'Fun_Griewank';
 % number of variablese
 num_vari = 50;
 % population size of genetic algorithm
@@ -103,33 +103,3 @@ figure;
 plot(log10(best_obj_record));
 xlabel('generation');ylabel('log10(best objective value)');
 title(sprintf('GA on %d-d %s function\n',num_vari,obj_fun(5:end)));
-
-
-
-
-
-function f = Fun_Ackley(x)
-% the Ackley function
-% xi = [-32.768,32.768]
-d = size(x,2);
-f = -20*exp(-0.2*sqrt(sum(x.^2,2)/d)) - exp(sum(cos(2*pi*x),2)/d) + 20 + exp(1);
-end
-
-function f = Fun_Ellipsoid(x)
-% the Ellipsoid function
-% xi = [-5.12,5.12]
-f = sum((1:size(x,2)).*x.^2,2);
-end
-
-function f = Fun_Griewank(x)
-% the Grtiewank function
-% xi = [-600,600]
-d = size(x,2);
-f = sum(x.^2/4000,2) - prod(cos(x./(1:d)),2) + 1;
-end
-
-function f = Fun_Rosenbrock(x)
-% the Rosenbrock function
-% xi = [-2.048,2.048]
-f = sum((x(:,2:end) - x(:,1:end-1).^2).^2 + (x(:,1:end-1)-1).^2,2);
-end
