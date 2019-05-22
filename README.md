@@ -1,6 +1,6 @@
 ## A real-coded Genetic Algorithm
 1. This is a Matlab implementation of the real-coded genetic algorithm [1][2] using tournament selection, simulated binary crossover, ploynomial mutation and environment selection.
-2. I refered to some codes written in the PlatEMO [3], but I used the crossover and mutation method in [1][2] considering the lower and upper bounds, so there is no need to repair the results of crossover and mutation. Besides, the implementation here is simpler (100 lines) and standalone.
+2. I refered to some codes written in the PlatEMO [3], but I used the crossover and mutation method in [1][2] considering the lower and upper bounds, so there is no need to repair the results of crossover and mutation. Besides, the implementation here is simpler and standalone.
 
 
 ## Reference
