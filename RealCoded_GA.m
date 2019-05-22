@@ -14,7 +14,7 @@
 clearvars;clc;close all;
 %------------------------------------
 % problem name 'Fun_Ellipsoid','Fun_Rosenbrock', 'Fun_Ackley', 'Fun_Griewank'
-obj_fun = 'Fun_Griewank';
+obj_fun = 'Fun_Ackley';
 % number of variablese
 num_vari = 50;
 % population size of genetic algorithm
@@ -43,6 +43,9 @@ pop_vari = repmat(lower_bound,pop_size,1) + rand(pop_size, num_vari).*repmat((up
 pop_fitness = feval(obj_fun, pop_vari);
 best_obj_record(generation,:) = min(pop_fitness);
 % print the iteration information
+plot(best_obj_record(1:generation));
+xlabel('generation');ylabel('best objective value');
+title(sprintf('GA on %d-d %s function\n generation: %d, best: %0.4g',num_vari,obj_fun(5:end),generation, best_obj_record(generation,:)));drawnow;
 fprintf('GA on %s, generation: %d, evaluation: %d, best: %0.4g\n',obj_fun(5:end),generation,generation*pop_size,best_obj_record(generation,:))
 %------------------------------------
 % the evoluation of the generation
@@ -56,21 +59,23 @@ while generation < max_gen
     %------------------------------------
     % crossover (simulated binary crossover)
     % dic_c is the distribution index of crossover 
-    dis_c = 10;
+    dis_c = 1;
     mu  = rand(pop_size/2,num_vari);
     parent1 = pop_parent(1:2:pop_size,:);
     parent2 = pop_parent(2:2:pop_size,:);
     beta = 1 + 2*min(min(parent1,parent2)-lower_bound,upper_bound-max(parent1,parent2))./max(abs(parent2-parent1),1E-6);
     alpha = 2 - beta.^(-dis_c-1);
-    betaq = (alpha.*mu).^(1/(dis_c+1)).*(mu <= 1./alpha) + (1./(2-alpha.*mu)).^(1/(dis_c+1)).*(mu > 1./alpha);    
+    betaq = (alpha.*mu).^(1/(dis_c+1)).*(mu <= 1./alpha) + (1./(2-alpha.*mu)).^(1/(dis_c+1)).*(mu > 1./alpha);
+    % the mutation is performed randomly on each variable
+    betaq = betaq.*(-1).^randi([0,1],pop_size/2,num_vari);
     betaq(rand(pop_size/2,num_vari)>0.5) = 1;
-    offspring1 = 0.5*(parent1 + parent2 - betaq.*abs(parent2 - parent1));
-    offspring2 = 0.5*(parent1 + parent2 + betaq.*abs(parent2 - parent1));
+    offspring1 = 0.5*((1+betaq).*parent1 + (1-betaq).*parent2);
+    offspring2 = 0.5*((1-betaq).*parent1 + (1+betaq).*parent2);
     pop_crossover = [offspring1;offspring2];
     %------------------------------------
     % mutation (ploynomial mutation)
     % dis_m is the distribution index of polynomial mutation
-    dis_m = 100;
+    dis_m = 1;
     pro_m = 1/num_vari;
     rand_var = rand(pop_size,num_vari);
     mu  = rand(pop_size,num_vari);
@@ -96,10 +101,9 @@ while generation < max_gen
     generation = generation + 1;
     best_obj_record(generation,:) = min(pop_fitness);
     % print the iteration information
+    plot(best_obj_record(1:generation));
+    xlabel('generation');ylabel('best objective value');
+    title(sprintf('GA on %d-d %s function\n generation: %d, best: %0.4g',num_vari,obj_fun(5:end),generation, best_obj_record(generation,:)));drawnow;
     fprintf('GA on %s, generation: %d, evaluation: %d, best: %0.4g\n',obj_fun(5:end),generation,generation*pop_size,best_obj_record(generation,:))
 end
 
-figure;
-plot(log10(best_obj_record));
-xlabel('generation');ylabel('log10(best objective value)');
-title(sprintf('GA on %d-d %s function\n',num_vari,obj_fun(5:end)));
