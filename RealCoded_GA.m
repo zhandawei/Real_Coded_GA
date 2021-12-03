@@ -66,8 +66,8 @@ while generation < max_gen
     beta = 1 + 2*min(min(parent1,parent2)-lower_bound,upper_bound-max(parent1,parent2))./max(abs(parent2-parent1),1E-6);
     alpha = 2 - beta.^(-dis_c-1);
     betaq = (alpha.*mu).^(1/(dis_c+1)).*(mu <= 1./alpha) + (1./(2-alpha.*mu)).^(1/(dis_c+1)).*(mu > 1./alpha);
-    % the mutation is performed randomly on each variable
     betaq = betaq.*(-1).^randi([0,1],pop_size/2,num_vari);
+    % each variable is chosen with a probability of 0.5 for crossover
     betaq(rand(pop_size/2,num_vari)>0.5) = 1;
     offspring1 = 0.5*((1+betaq).*parent1 + (1-betaq).*parent2);
     offspring2 = 0.5*((1-betaq).*parent1 + (1+betaq).*parent2);
