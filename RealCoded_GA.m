@@ -15,7 +15,7 @@ clearvars;clc;close all;
 %------------------------------------
 % problem name 'Fun_Ellipsoid','Fun_Rosenbrock', 'Fun_Ackley', 'Fun_Griewank'
 obj_fun = 'Fun_Ackley';
-% number of variablese
+% number of variables
 num_vari = 50;
 % population size of genetic algorithm
 pop_size = 100;
@@ -57,8 +57,9 @@ while generation < max_gen
     [~,index] = min(pop_fitness(temp),[],2);
     pop_parent = pop_vari(sum(temp.*(index == 1:k),2),:);
     %------------------------------------
-    % crossover (simulated binary crossover)
+    % crossover (simulated binary crossover): referece[2] 
     % dic_c is the distribution index of crossover 
+    % crossover rate is 1
     dis_c = 1;
     mu  = rand(pop_size/2,num_vari);
     parent1 = pop_parent(1:2:pop_size,:);
@@ -66,15 +67,15 @@ while generation < max_gen
     beta = 1 + 2*min(min(parent1,parent2)-lower_bound,upper_bound-max(parent1,parent2))./max(abs(parent2-parent1),1E-6);
     alpha = 2 - beta.^(-dis_c-1);
     betaq = (alpha.*mu).^(1/(dis_c+1)).*(mu <= 1./alpha) + (1./(2-alpha.*mu)).^(1/(dis_c+1)).*(mu > 1./alpha);
+    % crossover is randomly performed in each variable
     betaq = betaq.*(-1).^randi([0,1],pop_size/2,num_vari);
-    % each variable is chosen with a probability of 0.5 for crossover
-    betaq(rand(pop_size/2,num_vari)>0.5) = 1;
     offspring1 = 0.5*((1+betaq).*parent1 + (1-betaq).*parent2);
     offspring2 = 0.5*((1-betaq).*parent1 + (1+betaq).*parent2);
     pop_crossover = [offspring1;offspring2];
     %------------------------------------
-    % mutation (ploynomial mutation)
+    % mutation (ploynomial mutation): referece[2] 
     % dis_m is the distribution index of polynomial mutation
+    % mutation rate is 1/d
     dis_m = 1;
     pro_m = 1/num_vari;
     rand_var = rand(pop_size,num_vari);
@@ -106,4 +107,73 @@ while generation < max_gen
     title(sprintf('GA on %d-d %s function\n generation: %d, best: %0.4g',num_vari,obj_fun(5:end),generation, best_obj_record(generation,:)));drawnow;
     fprintf('GA on %s, generation: %d, evaluation: %d, best: %0.4g\n',obj_fun(5:end),generation,generation*pop_size,best_obj_record(generation,:))
 end
+
+
+
+function f = Fun_Ellipsoid(x)
+% the Ellipsoid function
+% xi = [-5.12,5.12]
+f = sum((1:size(x,2)).*x.^2,2);
+end
+
+
+function f = Fun_Rosenbrock(x)
+% the Rosenbrock function
+% xi = [-2.048,2.048]
+f = sum(100*(x(:,2:end) - x(:,1:end-1).^2).^2 + (x(:,1:end-1)-1).^2,2);
+end
+
+function f = Fun_Ackley(x)
+% the Ackley function
+% xi = [-32.768,32.768]
+d = size(x,2);
+f = -20*exp(-0.2*sqrt(sum(x.^2,2)/d)) - exp(sum(cos(2*pi*x),2)/d) + 20 + exp(1);
+end
+
+function f = Fun_Griewank(x)
+% the Grtiewank function
+% xi = [-600,600]
+d = size(x,2);
+f = sum(x.^2/4000,2) - prod(cos(x./sqrt(1:d)),2) + 1;
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
