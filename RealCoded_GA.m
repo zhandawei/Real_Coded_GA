@@ -14,7 +14,7 @@
 clearvars;clc;close all;
 %------------------------------------
 % problem name 'Fun_Ellipsoid','Fun_Rosenbrock', 'Fun_Ackley', 'Fun_Griewank'
-obj_fun = 'Fun_Ackley';
+obj_fun = 'Fun_Ellipsoid';
 % number of variables
 num_vari = 50;
 % population size of genetic algorithm
